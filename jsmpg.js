@@ -1,3 +1,27 @@
+function commandSendWS(message){
+	var uri = "ws://" + location.hostname + ":8084"
+	var ws = new WebSocket(uri);
+	ws.send(message)
+	ws.close()	
+}
+
+$('#button1').on('click', function(){
+	console.log('button1 clicked');
+	commandSendWS('button1')
+});
+$('#button2').on('click', function(){
+	console.log('button2 clicked');
+	commandSendWS('button2')
+});
+$('#button3').on('click', function(){
+	console.log('button3 clicked');
+	commandSendWS('button3')
+});
+$('#button4').on('click', function(){
+	console.log('button4 clicked');
+	commandSendWS('button4')
+});
+
 (function(window){ "use strict";
 
 // jsmpeg by Dominic Szablewski - phoboslab.org, github.com/phoboslab
