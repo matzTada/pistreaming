@@ -78,7 +78,14 @@ class StreamingHttpServer(HTTPServer):
 
 class StreamingWebSocket(WebSocket):
     def opened(self):
+        print('open websocket:')
         self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT), binary=True)
+
+    def received_message(self, m):
+        print('receive ws message:', m)
+
+    def closed(self, code, reason=None):
+        print('close websocket:', code, reason)
 
 
 class BroadcastOutput(object):
