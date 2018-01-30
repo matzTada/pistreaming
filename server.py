@@ -17,6 +17,7 @@ from ws4py.websocket import WebSocket
 from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
 
+
 ###########################################
 # CONFIGURATION
 WIDTH = 640
@@ -31,8 +32,13 @@ JSMPEG_HEADER = Struct('>4sHH')
 VFLIP = False
 HFLIP = False
 
+SERIAL_PORT = '/dev/ttyAMA0'
+SERIAL_BAUDRATE = 9600
 ###########################################
 
+
+import serial
+ser = serial.Serial(SERIAL_PORT, SERIAL_BAUDRATE)
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -83,6 +89,8 @@ class StreamingWebSocket(WebSocket):
 
     def received_message(self, m):
         print('receive ws message:', m)
+        toSerial = m.data.decode("utf-8") + "\n"
+        ser.write(toSerial.encode())
 
     def closed(self, code, reason=None):
         print('close websocket:', code, reason)
@@ -180,6 +188,8 @@ def main():
             http_thread.join()
             print('Waiting for websockets thread to finish')
             websocket_thread.join()
+
+            ser.close()
 
 
 if __name__ == '__main__':
