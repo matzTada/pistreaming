@@ -1,8 +1,12 @@
 function commandSendWS(message){
-	var uri = "ws://" + location.hostname + ":8084"
-	var ws = new WebSocket(uri);
-	ws.send(message)
-	ws.close()	
+//	var uri = "ws://" + location.hostname + ":8084"
+//	console.log(uri)
+//	var ws = new WebSocket(uri);
+//	ws.send(message)
+//	ws.close(
+
+// using websocket client created first for JPEG streaming
+	client.send(message)
 }
 
 $('#button1').on('click', function(){
