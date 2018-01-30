@@ -9,22 +9,13 @@ function commandSendWS(message){
 	client.send(message)
 }
 
-$('#button1').on('click', function(){
-	console.log('button1 clicked');
-	commandSendWS('button1')
-});
-$('#button2').on('click', function(){
-	console.log('button2 clicked');
-	commandSendWS('button2')
-});
-$('#button3').on('click', function(){
-	console.log('button3 clicked');
-	commandSendWS('button3')
-});
-$('#button4').on('click', function(){
-	console.log('button4 clicked');
-	commandSendWS('button4')
-});
+$('#button_L').on('click', function(){console.log('L');commandSendWS('L')});
+$('#button_s').on('click', function(){console.log('s');commandSendWS('s')});
+$('#button_R').on('click', function(){console.log('R');commandSendWS('R')});
+$('#button_l').on('click', function(){console.log('l');commandSendWS('l')});
+$('#button_t').on('click', function(){console.log('t');commandSendWS('t')});
+$('#button_r').on('click', function(){console.log('r');commandSendWS('r')});
+$('#button_b').on('click', function(){console.log('b');commandSendWS('b')});
 
 (function(window){ "use strict";
 

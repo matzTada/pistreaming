@@ -7,7 +7,7 @@
 		body {
 			background: ${BGCOLOR};
 			text-align: center;
-			margin-top: 10%;
+			/*margin-top: 10%;*/
 		}
 		#videoCanvas {
 			/* Always stretch the canvas to 640x480, regardless of its
@@ -22,18 +22,40 @@
 		change this internal resolution to whatever the source provides. The size the
 		canvas is displayed on the website is dictated by the CSS style.
 	-->
-	<button id="button1">Button1</button>
-	<button id="button2">Button2</button>
-	<button id="button3">Button3</button>
-	<button id="button4">Button4</button>
-	<canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
-		<p>
-			Please use a browser that supports the Canvas Element, like
-			<a href="http://www.google.com/chrome">Chrome</a>,
-			<a href="http://www.mozilla.com/firefox/">Firefox</a>,
-			<a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-		</p>
-	</canvas>
+  <div style="
+    display: inline-block;
+    text-align: center;
+                ">
+    <div style="
+                display:grid;
+                grid-template-rows: 1fr 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
+                /*grid-template-rows: 50px 50px 50px;*/
+                /*grid-template-columns: 100px 100px 100px;*/
+                ">
+      <div><button id="button_L">Left Curve</button></div>
+      <div><button id="button_s">Straight</button></div>
+      <div><button id="button_R">Right Curve</button></div>
+      <div><button id="button_l">Left rotate</button></div>
+      <div><button id="button_t">Stop</button></div>
+      <div><button id="button_r">Right rotate</button></div>
+      <div><button id=""></button></div>
+      <div><button id="button_b">Back</button></div>
+      <div><button id=""></button></div>
+    </div>
+  </div>
+
+  <div>
+    <canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
+      <p>
+        Please use a browser that supports the Canvas Element, like
+        <a href="http://www.google.com/chrome">Chrome</a>,
+        <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+        <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+      </p>
+    </canvas>
+  </div>
+
 	<!-- scripts -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="jsmpg.js"></script>
