@@ -22,6 +22,7 @@
 		change this internal resolution to whatever the source provides. The size the
 		canvas is displayed on the website is dictated by the CSS style.
 	-->
+  <!-- for arduino with motor drivers -->
   <div style="
     display: inline-block;
     text-align: center;
@@ -39,9 +40,9 @@
       <div><button id="button_l">Left rotate</button></div>
       <div><button id="button_t">Stop</button></div>
       <div><button id="button_r">Right rotate</button></div>
-      <div><button id=""></button></div>
+      <div></div>
       <div><button id="button_b">Back</button></div>
-      <div><button id=""></button></div>
+      <div></div>
     </div>
   </div>
 
@@ -54,6 +55,30 @@
         <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
       </p>
     </canvas>
+  </div>
+
+  <!-- for servo motors -->
+  <div style="
+    display: inline-block;
+    text-align: center;
+                ">
+    <div style="
+                display:grid;
+                grid-template-rows: 1fr 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
+                /*grid-template-rows: 50px 50px 50px;*/
+                /*grid-template-columns: 100px 100px 100px;*/
+                ">
+      <div></div>
+      <div><button id="button_up">UP</button></div>
+      <div></div>
+      <div><button id="button_left">LEFT</button></div>
+      <div></div>
+      <div><button id="button_right">RIGHT</button></div>
+      <div></div>
+      <div><button id="button_down">DOWN</button></div>
+      <div></div>
+    </div>
   </div>
 
 	<!-- scripts -->

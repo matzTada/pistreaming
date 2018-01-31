@@ -16,6 +16,10 @@ $('#button_l').on('click', function(){console.log('l');commandSendWS('l')});
 $('#button_t').on('click', function(){console.log('t');commandSendWS('t')});
 $('#button_r').on('click', function(){console.log('r');commandSendWS('r')});
 $('#button_b').on('click', function(){console.log('b');commandSendWS('b')});
+$('#button_up').on('click', function(){console.log('up');commandSendWS('up')});
+$('#button_left').on('click', function(){console.log('left');commandSendWS('left')});
+$('#button_right').on('click', function(){console.log('right');commandSendWS('right')});
+$('#button_down').on('click', function(){console.log('down');commandSendWS('down')});
 
 (function(window){ "use strict";
 

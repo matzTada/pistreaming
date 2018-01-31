@@ -34,11 +34,24 @@ HFLIP = False
 
 SERIAL_PORT = '/dev/ttyAMA0'
 SERIAL_BAUDRATE = 9600
-###########################################
 
+PWM_PIN_V = 7
+PWM_PIN_H = 12
+###########################################
 
 import serial
 ser = serial.Serial(SERIAL_PORT, SERIAL_BAUDRATE)
+
+import RPI.GPIO as GPIO
+import time
+import sys
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(PWM_PIN_V, GPIO.OUT)
+GPIO.setup(PWM_PIN_H, GPIO.OUT)
+pwmV = GPIO.PWM(PWM_PIN_V, 50)
+pwmH = GPIO.PWM(PWM_PIN_H, 50)
+pwmV_val = 2.5
+pwmH_val = 2.5
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -88,9 +101,22 @@ class StreamingWebSocket(WebSocket):
         self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT), binary=True)
 
     def received_message(self, m):
-        print('receive ws message:', m)
-        toSerial = m.data.decode("utf-8") + "\n"
-        ser.write(toSerial.encode())
+        gotStr = m.data.decode("utf-8")
+        gotStr = gotStr.strip()
+        print('receive ws message:', gotStr)
+        if gotStr == "up" or gotStr == "down":
+            pwmV_val +=  1.0 if gotStr == "up" else -1.0
+            pwmV.start(pwmV_val)
+            time.sleep(1)
+            pwmV.stop()
+        else if gotStr == "left" or gotStr == "right":
+            pwmH_val +=  1.0 if gotStr == "left" else -1.0
+            pwmH.start(pwmH_val)
+            time.sleep(1)
+            pwmH.stop()
+        else:
+            toSerial = gotStr + "\n"
+            ser.write(toSerial.encode())
 
     def closed(self, code, reason=None):
         print('close websocket:', code, reason)
@@ -190,6 +216,8 @@ def main():
             websocket_thread.join()
 
             ser.close()
+
+            GPIO.cleanup()
 
 
 if __name__ == '__main__':
