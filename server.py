@@ -29,8 +29,8 @@ COLOR = u'#444'
 BGCOLOR = u'#333'
 JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
-VFLIP = True
-HFLIP = True
+VFLIP = False
+HFLIP = False
 
 SERIAL_PORT = '/dev/ttyAMA0'
 SERIAL_BAUDRATE = 9600
