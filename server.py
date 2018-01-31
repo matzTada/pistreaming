@@ -29,29 +29,24 @@ COLOR = u'#444'
 BGCOLOR = u'#333'
 JSMPEG_MAGIC = b'jsmp'
 JSMPEG_HEADER = Struct('>4sHH')
-VFLIP = False
-HFLIP = False
+VFLIP = True
+HFLIP = True
 
 SERIAL_PORT = '/dev/ttyAMA0'
 SERIAL_BAUDRATE = 9600
 
-PWM_PIN_V = 7
-PWM_PIN_H = 12
+PWM_PIN_V = 12
+PWM_PIN_H = 7
 ###########################################
 
 import serial
 ser = serial.Serial(SERIAL_PORT, SERIAL_BAUDRATE)
 
-import RPI.GPIO as GPIO
-import time
-import sys
+import RPi.GPIO as GPIO
+from time import sleep
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(PWM_PIN_V, GPIO.OUT)
 GPIO.setup(PWM_PIN_H, GPIO.OUT)
-pwmV = GPIO.PWM(PWM_PIN_V, 50)
-pwmH = GPIO.PWM(PWM_PIN_H, 50)
-pwmV_val = 2.5
-pwmH_val = 2.5
 
 class StreamingHttpHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -96,6 +91,8 @@ class StreamingHttpServer(HTTPServer):
 
 
 class StreamingWebSocket(WebSocket):
+    pwmV_val = 8
+    pwmH_val = 19
     def opened(self):
         print('open websocket:')
         self.send(JSMPEG_HEADER.pack(JSMPEG_MAGIC, WIDTH, HEIGHT), binary=True)
@@ -104,17 +101,29 @@ class StreamingWebSocket(WebSocket):
         gotStr = m.data.decode("utf-8")
         gotStr = gotStr.strip()
         print('receive ws message:', gotStr)
+
         if gotStr == "up" or gotStr == "down":
-            pwmV_val +=  1.0 if gotStr == "up" else -1.0
-            pwmV.start(pwmV_val)
-            time.sleep(1)
+            pwmV = GPIO.PWM(PWM_PIN_V, 100)
+            if gotStr == "up":
+                StreamingWebSocket.pwmV_val += 1
+            else:
+                StreamingWebSocket.pwmV_val -= 1
+            print("vertical servo control: ", float(StreamingWebSocket.pwmV_val))
+            pwmV.start(float(StreamingWebSocket.pwmV_val))
+            sleep(1)
             pwmV.stop()
-        else if gotStr == "left" or gotStr == "right":
-            pwmH_val +=  1.0 if gotStr == "left" else -1.0
-            pwmH.start(pwmH_val)
-            time.sleep(1)
+        elif gotStr == "left" or gotStr == "right":
+            pwmH = GPIO.PWM(PWM_PIN_H, 100)
+            if gotStr == "left":
+                StreamingWebSocket.pwmH_val -= 1
+            else:
+                StreamingWebSocket.pwmH_val += 1
+            print("horizontal servo control: ", float(StreamingWebSocket.pwmH_val))
+            pwmH.start(float(StreamingWebSocket.pwmH_val))
+            sleep(1)
             pwmH.stop()
         else:
+            print("send message to serial: ", gotStr)
             toSerial = gotStr + "\n"
             ser.write(toSerial.encode())
 
